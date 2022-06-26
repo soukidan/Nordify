@@ -1,0 +1,330 @@
+/**
+ *
+ * theme scss
+ *
+ * **/
+
+// サイドパネル、フィルタ、レス検索、モーダルのplaceholderの文字色
+.inputs,
+.modallist {
+  ::placeholder {
+    color: rgb(216 222 233 / 28%);
+  }
+}
+
+
+// アイコンをFont Awesome 6 Freeに差し替える
+// .icon {
+//   font-family: "Font Awesome 6 Free Solid", Icons;
+// }
+
+// .icon.outline {
+//   font-family: "Font Awesome 6 Free Regular", outline-icons;
+// }
+
+// 書き込み欄のIEアイコン → 別のブラウザアイコン
+// Chromeは"\f268" Firefoxは"\f269" Safariは"\f267"（新しいデザインのSafariやChromium版Edgeを使用するにはv5.13.1以降のBrandsフォントが必要）
+.icon.internet.explorer::before {
+  font-family: "Font Awesome 6 Brands Regular", brand-icons;
+  content: "\f268";
+}
+
+// // ポップアップのmuteボタン → comment-slash（v5.0.9追加アイコン）
+// .icon.comment.alternate::before {
+//   content: "\f4b3";
+// }
+
+// // ワークスペースアイコンを一覧にないアイコンに差し替えテスト
+// // バーコード → にんじん（v5.6.0追加アイコン） ※そのままだとサイズが少し大きい
+// .icon.barcode::before {
+//   content: "\f787";
+// }
+
+// // フッターにバーコードアイコンがある場合はサイズを小さくする
+// .workspace_switch_con .icon.barcode {
+//   font-size: 18px;
+// }
+
+
+// 【Mac用】レス本文のヒラギノ角ゴシックを標準よりも一段階細くする
+// .rb {
+//   font-family: "HiraginoSans-W2", sans-serif;
+// }
+
+
+
+
+// 【垂直タブ左配置用】アクティブなペイン上に表示される線(.sightline)をサイドパネルの隣にある区切り線(#splitPanel)と同じ色にして細くする
+// ※あまりテストしてないので不具合が出るかも
+// .focused .sightline {
+//   background: #3b4252;
+//   opacity: 1;
+// }
+
+// [class^="sightline-"] {
+//   width: 1px;
+//   background: transparent;
+// }
+
+// .pane [class*="--focused-"] {
+//   width: 1px;
+//   background: #3b4252;
+//   opacity: 1;
+// }
+
+// サイドパネルの板名のbrightnessフィルタ解除
+.block .con .clickable {
+  filter: none;
+}
+
+// スレッド欄のレス検索コンテナに影をつける
+.thread-item .header-actions {
+  position: relative;
+  z-index: 8;
+}
+
+.thread-item .search-container .parts {
+  box-shadow: rgb(0 0 0 / 10%) 0 0 0.2em, rgb(0 0 0 / 20%) 0 0.2em 0.4em;
+}
+
+// キーワードフィルタ下の3pxのボーダーを、アクティブなペイン上に表示される線(.sightline)と同じ色にする
+// /* .filter-container .parts.filter_input {
+//   border-bottom: 3px solid rgb(108 150 165);
+// } */
+
+// スレッドヘッダーパネルのストップウォッチとキーワードフィルタを展開する▶︎の色を他のアイコンとそろえる
+.action-threadspeed .stopwatch,
+.filter-container .flt_input {
+  opacity: 0.8;
+}
+
+// // レス本文左のborderを1pxにする
+// .rcon.dp {
+//   border-left: 1px solid #3b4252;
+// }
+
+// // レスツリー起点の左のborderを削除
+// .rep_1.dproot,
+// .rep_2.dproot,
+// .rep_3.dproot,
+// .rep_4.dproot {
+//   border-left: 0;
+// }
+
+// フッターのバッジの色が灰色になってしまうので、グレースケールフィルタを非アクティブなワークスペースアイコンにのみかけ、バッジにかからないようにする
+.workspace_switch_con .workspace_trigger {
+  filter: none;
+
+  &:not(.active) .icon {
+    filter: grayscale(0.8);
+  }
+}
+
+
+
+
+// ポップアップの元レス背景色
+.popup-main .rcon.targetted {
+  background: #3b4252;
+}
+
+// マウスジェスチャー
+[class^="gesture-"] {
+  opacity: 1;
+}
+
+.gt-command .gt-box,
+.gt-guide {
+  color: #d8dee9;
+  background: #3b4252;
+}
+
+// スクロール/引っ張って更新をすると出てくる矢印アイコン
+// 矢印
+.str-container .huge.arrow {
+  // clip-path: circle(44%);
+  clip-path: circle(45%); // ※v6用 v6は45%にしないと円形が少し小さくなる
+
+  &::before {
+    background: #d8dee9 !important; // i.icon::beforeが{background: 0 0!important}のため
+  }
+}
+
+// 周囲とローディングアイコン
+.str-container .circle::before,
+.huge.sync.loading {
+  color: #434c5e;
+}
+
+
+
+
+/* ----------------------------------------------------------------
+        --- レスフィルタ ---
+   ---------------------------------------------------------------- */
+
+/*
+[v0710]
+.v-header
+    .filter-container
+        .parts
+            .controls
+                button.flt_input (▶)
+                button.button.check (フィルタ)
+                    .fltl.fltl_XXXXX (カウンター)
+                button.button.check.non (該当なし)
+                button.button.check.clear (Clear)
+                button.button.close (×)
+*/
+
+/*
+.filter-container .parts:not(.filter_input) {
+  align-items: initial;
+  height: 2.5rem;
+}
+
+.filter-container .controls {
+  flex: initial; // flex:1を解除して余白の分配をなくす（::afterで短いアンダーラインを引く用）
+  align-items: center; // [開発者ツールで中心線を出すためだけの設定]
+
+  // ▶と×以外のボタンの幅を均一に
+  button {
+    position: relative; // ::afterで短いアンダーラインを引く用
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    // アウトラインが綺麗に出るように調整するのは大変なので削除
+    &:focus {
+      outline: none;
+    }
+  }
+
+  // ボタンの設定 と 該当レスありの文字色
+  .check {
+    padding: 0 12px;
+    margin: 0;
+    font-size: 13px;
+    color: rgb(216 222 233 / 80%); // nord4
+
+    // アイコン追加のための設定
+    &::before {
+      margin-right: 4px;
+      font-family: "Font Awesome 6 Free Solid", Icons;
+      font-size: 16px;
+      line-height: 1;
+      color: rgb(216 222 233 / 75%); // nord4
+    }
+  }
+
+  // 該当レスなし と 該当レスなしのアイコンの色
+  .button.non,
+  .button.non::before {
+    color: #4c566a; // nord3
+  }
+
+  // ▶ボタン
+  .flt_input {
+    padding: 0 calc(1em + 20px);
+    line-height: 1;
+    border-bottom: 3px solid transparent; // 高さ揃え用
+    opacity: 0.75; // フィルタのアイコンと色を揃える
+  }
+
+  // Clear
+  .check.clear {
+    font-size: 14px;
+    border-bottom: 2px solid transparent; // ヒラギノ用 Monterey v0110
+  }
+
+  // ×
+  // .buttonがないとアイコンにも適用されてしまう（アイコンは.close.icon）
+  .button.close {
+    display: none; // ! 余白調整が難しいのでフィルタを閉じるボタンの「×」は削除
+    padding: 0 calc(1em + 6px);
+    border-bottom: 3px solid transparent;
+  }
+
+  // --- フィルタにアイコン追加 ---
+  // 人気のアイコン
+  :nth-child(2)::before {
+    content: "\f06d";
+  }
+
+  // 画像のアイコン
+  :nth-child(3)::before {
+    content: "\f03e";
+  }
+
+  // 動画のアイコン
+  :nth-child(4)::before {
+    // content: "\f03d"; // video - v5用
+    content: "\e131"; // clapperboard - v6用 （v6.0.0追加アイコン）
+  }
+
+  // 外部リンクのアイコン
+  :nth-child(5)::before {
+    // content: "\f360"; // external-link-square-alt - v5用
+    content: "\f14c"; // square-arrow-up-right - v6用
+  }
+
+  // 内部リンクのアイコン
+  :nth-child(6)::before {
+    font-size: 14px; // v6版も鎖が大きすぎる
+    content: "\f0c1";
+  }
+
+  // 自分のアイコン
+  :nth-child(7)::before {
+    font-size: 13px; // 少し大きく感じるので小さくする
+    content: "\f303";
+  }
+}
+
+
+// カウンター
+.filter-container .fltl {
+  display: flex;
+  padding: 0;
+  margin-left: 4px;
+  font-size: 100%;
+  background: transparent;
+}
+
+
+// --- アクティブなフィルタ ---
+.filter-container .controls .check.on {
+  -webkit-text-stroke-width: thin; // アクティブ時は文字をboldより細い太めにする
+
+  // アクティブ時のアイコンの色
+  &::before {
+    color: rgb(229 233 240 / 90%); // nord5
+    -webkit-text-stroke-width: initial;
+  }
+
+  // #### ::afterで短いアンダーラインを引く ####
+  // &::after {
+  //   position: absolute;
+  //   bottom: -1px;
+  //   left: 50%;
+  //   display: inline-block;
+  //   width: 100%;
+  //   height: 2px;
+  //   content: "";
+  //   background: #88c0d0; // nord8
+  //   transform: translateX(-50%);
+  // }
+
+  // アクティブ時の文字色とフィルタの下のborder透明化 ※短縮不可
+  &.flt_story,
+  &.flt_image,
+  &.flt_movie,
+  &.flt_olink,
+  &.flt_ilink,
+  &.flt_myself {
+    color: #e5e9f0; // nord5
+    background: #434c5e; // nord2
+    border-bottom: 1px solid transparent;
+  }
+}
+ */
